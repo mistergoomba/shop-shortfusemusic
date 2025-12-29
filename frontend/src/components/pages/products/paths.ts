@@ -20,5 +20,12 @@ export const getStaticPaths = async () => {
         }),
     );
 
-    return { paths, fallback: false };
+    try {
+        return { paths, fallback: 'blocking' };
+    } catch (error) {
+        // If backend is not available during build, return empty paths
+        // Pages will be generated on-demand when first requested
+        console.warn('Failed to fetch products paths during build, using on-demand generation:', error);
+        return { paths: [], fallback: 'blocking' };
+    }
 };
