@@ -9,7 +9,8 @@ RUN npm ci
 
 # Copy source files and build
 COPY . .
-RUN npm run build
+RUN npm run build || (echo "Build failed!" && exit 1)
+RUN ls -la dist/ || (echo "dist directory not found!" && exit 1)
 
 EXPOSE 3000
 
