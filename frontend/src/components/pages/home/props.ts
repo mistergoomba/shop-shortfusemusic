@@ -53,7 +53,7 @@ export const getStaticProps = async (ctx: ContextModel) => {
                 ...r.context,
                 products: [],
                 categories: [],
-                navigation: [],
+                navigation: null,
                 sliders: [],
             },
             revalidate: 10,
