@@ -25,7 +25,8 @@ export const ProductCard: React.FC<{ variant: CollectionTileProductVariantType }
                         weight={500}
                         style={{
                             whiteSpace: 'nowrap',
-                        }}>
+                        }}
+                    >
                         {variant.product.name}
                     </TP>
                     <Stack w100 itemsCenter justifyBetween>
@@ -42,7 +43,8 @@ export const ProductCard: React.FC<{ variant: CollectionTileProductVariantType }
                 onClick={e => {
                     e.stopPropagation();
                     addToCart(variant.id, 1, true);
-                }}>
+                }}
+            >
                 {t('add-to-cart')}
             </Button>
         </Stack>

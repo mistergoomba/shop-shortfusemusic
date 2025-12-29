@@ -29,7 +29,8 @@ const App = ({ Component, pageProps }: AppProps) => {
                         <ProductProvider
                             initialState={{
                                 product: 'product' in pageProps ? pageProps.product : undefined,
-                            }}>
+                            }}
+                        >
                             <CollectionProvider
                                 initialState={{
                                     collection: 'collection' in pageProps ? pageProps.collection : undefined,
@@ -40,7 +41,8 @@ const App = ({ Component, pageProps }: AppProps) => {
                                     searchQuery: 'searchQuery' in pageProps ? pageProps.searchQuery : undefined,
                                     page: 'page' in pageProps ? pageProps.page : undefined,
                                     sort: 'sort' in pageProps ? pageProps.sort : undefined,
-                                }}>
+                                }}
+                            >
                                 <Component {...pageProps} />
                             </CollectionProvider>
                         </ProductProvider>

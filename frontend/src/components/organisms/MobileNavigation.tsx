@@ -28,7 +28,8 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigation }
                         initial={{ x: '-100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
-                        transition={{ type: 'tween', duration: 0.2 }}>
+                        transition={{ type: 'tween', duration: 0.2 }}
+                    >
                         <MenuContent column gap="2rem">
                             {navigation?.children.map((collection, index) => {
                                 const href =

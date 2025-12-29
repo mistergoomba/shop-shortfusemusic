@@ -32,7 +32,8 @@ export const Banner = forwardRef((props: BannerType, ref: React.ForwardedRef<HTM
                             stiffness: 380,
                             damping: 30,
                         }}
-                        {...rest}>
+                        {...rest}
+                    >
                         {clearErrors && (
                             <HideBannerButton onClick={clearErrors}>
                                 <X size={'1.5rem'} />

@@ -34,7 +34,8 @@ export const Tooltip: React.FC<{
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.3 }}
                             transition={{ duration: 0.1 }}
-                            {...layerProps}>
+                            {...layerProps}
+                        >
                             <TP size="1.25rem">{text}</TP>
                             {/* @ts-ignore */}
                             <Arrow {...arrowProps} style={{ width: 6, height: 6, ...arrowProps.style }} />

@@ -104,7 +104,8 @@ export const LanguageSwitcher = () => {
                             .replace('[code]', query.code as string);
 
                         push(correctPathname);
-                    }}>
+                    }}
+                >
                     {getFlagByCode(newLang)}
                 </Language>
             );

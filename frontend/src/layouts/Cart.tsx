@@ -82,7 +82,8 @@ export const Cart = ({ activeOrder }: { activeOrder?: ActiveOrderType }) => {
                                                                 <TP
                                                                     size="1.75rem"
                                                                     weight={500}
-                                                                    style={{ whiteSpace: 'nowrap' }}>
+                                                                    style={{ whiteSpace: 'nowrap' }}
+                                                                >
                                                                     {productVariant.product.name}
                                                                 </TP>
                                                                 {optionInName && (
@@ -112,7 +113,8 @@ export const Cart = ({ activeOrder }: { activeOrder?: ActiveOrderType }) => {
                                                                     style={{
                                                                         textDecoration: 'line-through',
                                                                         lineHeight: '2.4rem',
-                                                                    }}>
+                                                                    }}
+                                                                >
                                                                     {priceFormatter(linePriceWithTax, currencyCode)}
                                                                 </TP>
                                                                 <TP style={{ color: 'red' }}>

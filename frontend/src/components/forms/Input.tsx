@@ -29,7 +29,8 @@ export const Input = forwardRef((props: InputType, ref: React.ForwardedRef<HTMLI
                         justifyCenter
                         itemsCenter
                         active={localType !== 'password'}
-                        onClick={() => setLocalType(localType === 'password' ? 'text' : 'password')}>
+                        onClick={() => setLocalType(localType === 'password' ? 'text' : 'password')}
+                    >
                         <Eye size={'1.8rem'} />
                     </EyeWrapper>
                 )}
@@ -40,7 +41,8 @@ export const Input = forwardRef((props: InputType, ref: React.ForwardedRef<HTMLI
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}>
+                                transition={{ duration: 0.2 }}
+                            >
                                 {error?.message}
                             </FormError>
                         </Error>

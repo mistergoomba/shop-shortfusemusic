@@ -14,7 +14,12 @@
     "zeus": "zeus http://localhost:3000/shop-api ./src --td",
     "toc": "i18next-resources-for-ts toc -i ./public/locales/en -o ./src/@types/resources.ts",
     "interface": "i18next-resources-for-ts interface -i ./public/locales/en -o ./src/@types/resources.d.ts",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,json}\"",
+    "validate": "npm run type-check && (npm run lint -- --max-warnings=999 || true)",
+    "validate:strict": "npm run type-check && npm run lint && npm run format:check"
   },
   "dependencies": {
     "@emotion/core": "^11.0.0",

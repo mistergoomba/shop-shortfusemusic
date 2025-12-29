@@ -78,7 +78,8 @@ export const Navigation: React.FC<NavigationProps> = ({ navigation, changeModal 
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.2 }}
-                                ref={searchRef}>
+                                ref={searchRef}
+                            >
                                 <NavigationSearch {...navigationSearch} />
                             </DesktopNavigationContainer>
                         ) : (

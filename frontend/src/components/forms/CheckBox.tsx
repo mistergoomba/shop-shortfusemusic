@@ -24,7 +24,8 @@ export const CheckBox = forwardRef((props: InputType, ref: React.ForwardedRef<HT
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}>
+                                transition={{ duration: 0.2 }}
+                            >
                                 <CheckboxIcon size="2rem" />
                             </CheckboxAnimation>
                         )}
@@ -52,7 +53,8 @@ export const CheckBox = forwardRef((props: InputType, ref: React.ForwardedRef<HT
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ duration: 0.2 }}>
+                                transition={{ duration: 0.2 }}
+                            >
                                 {error?.message}
                             </FormError>
                         )}

@@ -20,7 +20,8 @@ export const Pagination: React.FC<{
                             element?.scrollIntoView({ behavior: 'smooth' });
                             changePage(page);
                         }}
-                        isCurrent={isCurrent}>
+                        isCurrent={isCurrent}
+                    >
                         {text}
                     </PaginationText>
                 ))

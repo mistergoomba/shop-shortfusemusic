@@ -19,7 +19,8 @@ export const Ratings: React.FC<{ rating: number }> = ({ rating }) => {
             {stars.map(star => (
                 <RatingsWrapper
                     key={star}
-                    style={{ position: 'relative', height: '1.5rem', width: '1.5rem', color: 'black' }}>
+                    style={{ position: 'relative', height: '1.5rem', width: '1.5rem', color: 'black' }}
+                >
                     {/* FILLABLE STARS */}
                     <svg
                         style={{ clipPath: `polygon(0 0, ${fillValues[star]}% 0, ${fillValues[star]}% 100%, 0 100%)` }}
@@ -27,7 +28,8 @@ export const Ratings: React.FC<{ rating: number }> = ({ rating }) => {
                         height="14"
                         viewBox="0 0 14 14"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
                         <path
                             fillRule="evenodd"
                             clipRule="evenodd"

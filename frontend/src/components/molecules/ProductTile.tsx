@@ -47,7 +47,8 @@ export const ProductTile: React.FC<{
                                     color="contrast"
                                     upperCase
                                     weight={500}
-                                    style={{ letterSpacing: '0.5px' }}>
+                                    style={{ letterSpacing: '0.5px' }}
+                                >
                                     {c?.name}
                                 </TP>
                             </CategoryBlock>

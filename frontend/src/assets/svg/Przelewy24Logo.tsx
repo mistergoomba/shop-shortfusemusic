@@ -13,7 +13,8 @@ export const Przelewy24Logo = () => {
             height="672px"
             viewBox="0 0 1920 672"
             enableBackground="new 0 0 1920 672"
-            xmlSpace="preserve">
+            xmlSpace="preserve"
+        >
             <g>
                 <polygon
                     fillRule="evenodd"
