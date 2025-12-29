@@ -518,8 +518,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ availableCountries, active
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                >
+                                    transition={{ duration: 0.2 }}>
                                     <TH2 size="2rem" weight={500} style={{ marginBottom: '1.75rem' }}>
                                         {t('orderForm.shippingInfo')}
                                     </TH2>
@@ -604,8 +603,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ availableCountries, active
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
+                                        transition={{ duration: 0.2 }}>
                                         <Input
                                             {...register('password')}
                                             type="password"
@@ -647,8 +645,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ availableCountries, active
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
+                                        transition={{ duration: 0.2 }}>
                                         {errors.terms?.message}
                                     </FormError>
                                 )}

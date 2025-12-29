@@ -40,8 +40,7 @@ export const CartDrawer = ({ activeOrder }: { activeOrder?: ActiveOrderType }) =
                         ref={ref}
                         initial={{ transform: 'translateX(100%)' }}
                         animate={{ transform: 'translateX(0%)' }}
-                        exit={{ transform: 'translateX(100%)' }}
-                    >
+                        exit={{ transform: 'translateX(100%)' }}>
                         <CartContainer column>
                             <CartHeader activeOrder={activeOrder} />
                             <CartBody activeOrder={activeOrder} currencyCode={currencyCode} />

@@ -98,8 +98,7 @@ export const CustomerDetailsForm: React.FC<{
                     type: 'spring',
                     stiffness: 380,
                     damping: 30,
-                }}
-            >
+                }}>
                 <Form onSubmit={handleSubmit(onCustomerDataChange)} noValidate>
                     <Stack gap="2rem" column itemsCenter>
                         <Input

@@ -34,8 +34,7 @@ export const ProductOptions: React.FC<ProductOptionsProps> = ({ productOptionsGr
                                         outOfStock={o.stockLevel === 'OUT_OF_STOCK'}
                                         key={o.name + j}
                                         onClick={() => handleClick(og.id, o.id)}
-                                        selected={o.isSelected}
-                                    >
+                                        selected={o.isSelected}>
                                         {o.name}
                                     </SizeSelector>
                                 );
@@ -50,8 +49,7 @@ export const ProductOptions: React.FC<ProductOptionsProps> = ({ productOptionsGr
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                    >
+                        transition={{ duration: 0.2 }}>
                         <Error size="1.25rem">{addingError}</Error>
                     </NoVariantInfo>
                 )}

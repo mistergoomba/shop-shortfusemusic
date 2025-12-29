@@ -33,8 +33,7 @@ export const DeliveryMethod: React.FC<Props> = ({
                         selected={selected === id}
                         key={id}
                         column
-                        onClick={() => onChange(id)}
-                    >
+                        onClick={() => onChange(id)}>
                         <TP size="1.5rem" weight={400}>
                             {name}
                         </TP>

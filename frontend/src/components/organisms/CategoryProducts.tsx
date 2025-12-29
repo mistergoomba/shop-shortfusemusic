@@ -155,8 +155,7 @@ const CategoryProductVariantList: React.FC<{
                             }}
                             onMouseLeave={e => {
                                 (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)';
-                            }}
-                        >
+                            }}>
                             <img
                                 src={firstVariant.product.featuredAsset?.preview || '/placeholder.png'}
                                 alt={firstVariant.name}
@@ -182,8 +181,7 @@ const CategoryProductVariantList: React.FC<{
                                         zIndex: 2,
                                         width: '50px',
                                         height: '50px',
-                                    }}
-                                >
+                                    }}>
                                     SOLD OUT
                                 </span>
                             )}

@@ -51,8 +51,7 @@ export const NotifyMeForm = () => {
                 style={{ margin: 0 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: errors.email?.message ? 1 : 0 }}
-                transition={{ duration: 0.2 }}
-            >
+                transition={{ duration: 0.2 }}>
                 {errors.email?.message}
             </FormError>
         </Stack>

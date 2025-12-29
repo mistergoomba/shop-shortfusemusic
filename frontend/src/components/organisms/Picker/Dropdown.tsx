@@ -50,8 +50,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                                 onClick={() => {
                                     setSelected(key);
                                     setIsOpen(false);
-                                }}
-                            >
+                                }}>
                                 {children}
                             </DropdownItem>
                         ))}

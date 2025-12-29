@@ -110,8 +110,7 @@ export const CustomerResetPasswordForm: React.FC = () => {
                 type: 'spring',
                 stiffness: 380,
                 damping: 30,
-            }}
-        >
+            }}>
             <Form onSubmit={handleSubmit(onPasswordChange)} noValidate>
                 <Banner
                     error={{

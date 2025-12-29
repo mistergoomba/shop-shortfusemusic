@@ -35,8 +35,7 @@ export const Hero: React.FC<{
                     </Stack>
                     <StandAloneLink
                         href={link}
-                        {...(link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    >
+                        {...(link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                         {cta}
                         <ArrowRight size="2rem" />
                     </StandAloneLink>

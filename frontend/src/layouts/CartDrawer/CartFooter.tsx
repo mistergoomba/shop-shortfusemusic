@@ -68,8 +68,7 @@ export const CartFooter: React.FC<Props> = ({ activeOrder, currencyCode, discoun
                         onClick={() => {
                             setLoading(true);
                             push('/checkout');
-                        }}
-                    >
+                        }}>
                         {t('proceed-to-checkout')}
                     </StyledButton>
                 </div>

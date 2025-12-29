@@ -37,8 +37,7 @@ export const SortBy: React.FC<Props> = ({ handleSort, sort }) => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
-                            transition={{ duration: 0.2, ease: 'easeInOut' }}
-                        >
+                            transition={{ duration: 0.2, ease: 'easeInOut' }}>
                             {sortOptions.map(o => (
                                 <StyledOption
                                     selected={o.key == sort.key && o.direction == sort.direction}
@@ -47,8 +46,7 @@ export const SortBy: React.FC<Props> = ({ handleSort, sort }) => {
                                     onClick={async () => {
                                         setOpen(false);
                                         await handleSort(o);
-                                    }}
-                                >
+                                    }}>
                                     <Stack itemsCenter>
                                         <TP capitalize weight={400} size="1.5rem">
                                             {o.key}&nbsp;

@@ -21,8 +21,7 @@ export function Select<T extends string | number>({
                 value={value || ''}
                 onChange={e => {
                     setValue(e.target.value as T);
-                }}
-            >
+                }}>
                 <option value="" disabled>
                     {t('select-category')}
                 </option>

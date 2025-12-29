@@ -19,8 +19,7 @@ export const PopularSearches: React.FC<PopularSearchesProps> = ({ children, popu
                             size={'1.5rem'}
                             weight={400}
                             onClick={() => onClick(item)}
-                            style={{ cursor: 'pointer' }}
-                        >
+                            style={{ cursor: 'pointer' }}>
                             {item}
                         </TypoGraphy>
                     ))}
