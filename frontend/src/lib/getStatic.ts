@@ -61,4 +61,4 @@ export function makeServerSideProps(ns: Array<keyof typeof resources>) {
     };
 }
 
-export const getStaticPaths = () => ({ fallback: false, paths: getStandardLocalePaths() });
+export const getStaticPaths = () => ({ fallback: 'blocking', paths: getStandardLocalePaths() });

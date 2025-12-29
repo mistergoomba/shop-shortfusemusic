@@ -9,38 +9,54 @@ const slugsOfBestOf = ['home-garden', 'electronics', 'sports-outdoor'];
 
 export const getStaticProps = async (ctx: ContextModel) => {
     const r = await makeStaticProps(['common', 'homepage'])(ctx);
-    const api = SSGQuery(r.context);
+    
+    try {
+        const api = SSGQuery(r.context);
 
-    const products = await api({
-        search: [{ input: { groupByProduct: true, sort: { price: SortOrder.ASC } } }, { items: ProductSearchSelector }],
-    });
+        const products = await api({
+            search: [{ input: { groupByProduct: true, sort: { price: SortOrder.ASC } } }, { items: ProductSearchSelector }],
+        });
 
-    const sliders = await Promise.all(
-        slugsOfBestOf
-            .map(async slug => {
-                const section = await api({
-                    collection: [{ slug }, homePageSlidersSelector],
-                });
-                if (!section.collection) return null;
-                return section.collection;
-            })
-            .filter((x): x is Promise<HomePageSlidersType> => !!x),
-    );
+        const sliders = await Promise.all(
+            slugsOfBestOf
+                .map(async slug => {
+                    const section = await api({
+                        collection: [{ slug }, homePageSlidersSelector],
+                    });
+                    if (!section.collection) return null;
+                    return section.collection;
+                })
+                .filter((x): x is Promise<HomePageSlidersType> => !!x),
+        );
 
-    const collections = await getCollections(r.context);
-    const navigation = arrayToTree(collections);
+        const collections = await getCollections(r.context);
+        const navigation = arrayToTree(collections);
 
-    const returnedStuff = {
-        props: {
-            ...r.props,
-            ...r.context,
-            products: products.search.items,
-            categories: collections,
-            navigation,
-            sliders,
-        },
-        revalidate: process.env.NEXT_REVALIDATE ? parseInt(process.env.NEXT_REVALIDATE) : 10,
-    };
-
-    return returnedStuff;
+        return {
+            props: {
+                ...r.props,
+                ...r.context,
+                products: products.search.items,
+                categories: collections,
+                navigation,
+                sliders,
+            },
+            revalidate: process.env.NEXT_REVALIDATE ? parseInt(process.env.NEXT_REVALIDATE) : 10,
+        };
+    } catch (error) {
+        // If backend is not available during build, return minimal props
+        // Page will be regenerated on-demand when backend is available
+        console.warn('Failed to fetch home page data during build, using minimal props:', error);
+        return {
+            props: {
+                ...r.props,
+                ...r.context,
+                products: [],
+                categories: [],
+                navigation: [],
+                sliders: [],
+            },
+            revalidate: 10,
+        };
+    }
 };

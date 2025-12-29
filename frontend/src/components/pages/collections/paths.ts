@@ -43,6 +43,13 @@ const getCollectionsPaths = async () => {
 };
 
 export const getStaticPaths = async () => {
-    const paths = await getCollectionsPaths();
-    return { paths, fallback: false };
+    try {
+        const paths = await getCollectionsPaths();
+        return { paths, fallback: 'blocking' };
+    } catch (error) {
+        // If backend is not available during build, return empty paths
+        // Pages will be generated on-demand when first requested
+        console.warn('Failed to fetch collections paths during build, using on-demand generation:', error);
+        return { paths: [], fallback: 'blocking' };
+    }
 };
