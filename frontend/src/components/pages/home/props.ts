@@ -9,12 +9,15 @@ const slugsOfBestOf = ['home-garden', 'electronics', 'sports-outdoor'];
 
 export const getStaticProps = async (ctx: ContextModel) => {
     const r = await makeStaticProps(['common', 'homepage'])(ctx);
-    
+
     try {
         const api = SSGQuery(r.context);
 
         const products = await api({
-            search: [{ input: { groupByProduct: true, sort: { price: SortOrder.ASC } } }, { items: ProductSearchSelector }],
+            search: [
+                { input: { groupByProduct: true, sort: { price: SortOrder.ASC } } },
+                { items: ProductSearchSelector },
+            ],
         });
 
         const sliders = await Promise.all(
