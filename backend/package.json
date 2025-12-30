@@ -11,7 +11,8 @@
     "start:worker": "node ./dist/index-worker.js",
     "start": "concurrently npm:start:*",
     "type-check": "tsc --noEmit",
-    "validate": "npm run type-check && npm run build"
+    "validate": "npm run type-check && npm run build",
+    "import:bigcartel": "ts-node scripts/import-bigcartel.ts"
   },
   "dependencies": {
     "@vendure/admin-ui-plugin": "3.5.2",

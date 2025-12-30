@@ -21,8 +21,9 @@ export const config: VendureConfig = {
     port: serverPort,
     adminApiPath: 'admin-api',
     shopApiPath: 'shop-api',
-    // Enable trust proxy for Railway (handles X-Forwarded-For headers)
-    trustProxy: true,
+    // Enable trust proxy only in production (for Railway's proxy)
+    // In dev mode, this can cause cookie/session issues
+    trustProxy: !IS_DEV,
     // The following options are useful in development mode,
     // but are best turned off for production for security
     // reasons.
