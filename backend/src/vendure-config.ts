@@ -36,24 +36,30 @@ export const config: VendureConfig = {
   authOptions: {
     tokenMethod: ['bearer', 'cookie'],
     superadminCredentials: {
-      identifier: process.env.SUPERADMIN_USERNAME || (() => {
-        console.error('[Config Error] SUPERADMIN_USERNAME is required but not set!');
-        process.exit(1);
-        return '';
-      })(),
-      password: process.env.SUPERADMIN_PASSWORD || (() => {
-        console.error('[Config Error] SUPERADMIN_PASSWORD is required but not set!');
-        process.exit(1);
-        return '';
-      })(),
+      identifier:
+        process.env.SUPERADMIN_USERNAME ||
+        (() => {
+          console.error('[Config Error] SUPERADMIN_USERNAME is required but not set!');
+          process.exit(1);
+          return '';
+        })(),
+      password:
+        process.env.SUPERADMIN_PASSWORD ||
+        (() => {
+          console.error('[Config Error] SUPERADMIN_PASSWORD is required but not set!');
+          process.exit(1);
+          return '';
+        })(),
     },
     cookieOptions: {
-      secret: process.env.COOKIE_SECRET || (() => {
-        console.error('[Config Error] COOKIE_SECRET is required but not set!');
-        console.error('[Config Error] Generate one with: openssl rand -base64 32');
-        process.exit(1);
-        return '';
-      })(),
+      secret:
+        process.env.COOKIE_SECRET ||
+        (() => {
+          console.error('[Config Error] COOKIE_SECRET is required but not set!');
+          console.error('[Config Error] Generate one with: openssl rand -base64 32');
+          process.exit(1);
+          return '';
+        })(),
     },
   },
   dbConnectionOptions: (() => {
@@ -117,19 +123,26 @@ export const config: VendureConfig = {
       ),
       globalTemplateVars: {
         // The following variables will change depending on your storefront implementation.
-        fromAddress: process.env.FROM_EMAIL_ADDRESS || '"Short Fuse Music" <noreply@shortfusemusic.com>',
-        verifyEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify' : 'https://shop.shortfusemusic.com/verify',
-        passwordResetUrl: IS_DEV ? 'http://localhost:3001/password-reset' : 'https://shop.shortfusemusic.com/password-reset',
-        changeEmailAddressUrl: IS_DEV ? 'http://localhost:3001/verify-email-address-change' : 'https://shop.shortfusemusic.com/verify-email-address-change',
+        fromAddress:
+          process.env.FROM_EMAIL_ADDRESS || '"Short Fuse Music" <noreply@shortfusemusic.com>',
+        verifyEmailAddressUrl: IS_DEV
+          ? 'http://localhost:3001/verify'
+          : 'https://shop.shortfusemusic.com/verify',
+        passwordResetUrl: IS_DEV
+          ? 'http://localhost:3001/password-reset'
+          : 'https://shop.shortfusemusic.com/password-reset',
+        changeEmailAddressUrl: IS_DEV
+          ? 'http://localhost:3001/verify-email-address-change'
+          : 'https://shop.shortfusemusic.com/verify-email-address-change',
       },
     }),
     AdminUiPlugin.init({
       route: 'admin',
       port: serverPort + 2,
       adminUiConfig: {
-        // In production, use same origin (Railway handles the proxy)
-        apiHost: IS_DEV ? 'http://localhost' : '',
-        apiPort: serverPort,
+        // Explicitly set API URL for production
+        apiHost: IS_DEV ? 'http://localhost' : 'https://admin.shortfusemusic.com',
+        apiPort: IS_DEV ? serverPort : 443,
       },
     }),
   ],
