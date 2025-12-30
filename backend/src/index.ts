@@ -1,5 +1,6 @@
 import { bootstrap, runMigrations } from '@vendure/core';
 import { config } from './vendure-config';
+import { Request, Response } from 'express';
 
 console.log('[Server] Starting migrations...');
 runMigrations(config)
@@ -8,6 +9,13 @@ runMigrations(config)
         return bootstrap(config);
     })
     .then(app => {
+        // Add root redirect to /admin
+        const httpServer = app.getHttpServer();
+        const expressApp = httpServer.app;
+        expressApp.get('/', (req: Request, res: Response) => {
+            res.redirect('/admin');
+        });
+        
         console.log('[Server] Vendure server is ready!');
         console.log(`[Server] Admin API: http://0.0.0.0:${process.env.PORT || 3000}/admin-api`);
         console.log(`[Server] Shop API: http://0.0.0.0:${process.env.PORT || 3000}/shop-api`);
