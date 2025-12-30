@@ -14,51 +14,29 @@ Successfully updated all Vendure packages from version **3.3.1** to **3.5.2**.
 
 ## Verification
 
-✅ **TypeScript Type Checking**: Passed  
-✅ **Build**: Successful  
-✅ **No Breaking Changes Detected**: Code compiles without errors
+- **TypeScript Type Checking**: Passed  
+- **Build**: Successful  
+- **No Breaking Changes Detected**: Code compiles without errors
 
-## Next Steps
+## Database Migrations
 
-### 1. Database Migrations
-
-When you run the updated Vendure server, it will automatically detect and apply any necessary database migrations. The project is configured with:
-
-- `synchronize: true` - Auto-syncs schema in development (⚠️ **NOT recommended for production**)
+The project is configured with:
+- `synchronize: false` in production (uses migrations)
+- `synchronize: true` in development (auto-syncs schema)
 - Migrations path: `./src/migrations/*.+(js|ts)`
 
 **For Production:**
-1. **Backup your database** before running migrations
-2. Generate a migration script:
-   ```bash
-   npx vendure migrate
-   ```
-3. Review the generated migration file
-4. Test the migration in a staging environment
-5. Apply to production
+- Migrations run automatically when the server starts
+- Always backup your database before running migrations
 
 **For Development:**
 - With `synchronize: true`, the schema will auto-update on server start
 - No manual migration needed
 
-### 2. Test the Application
+## Notes
 
-After updating, test the following:
-- ✅ Admin UI loads correctly
-- ✅ Shop API endpoints work
-- ✅ GraphQL queries/mutations function properly
-- ✅ Email functionality (if using)
-- ✅ Asset uploads/downloads
-- ✅ Custom plugins (if any)
-
-### 3. Check for Deprecation Warnings
-
-The update may include deprecation warnings for:
-- Apollo Server v4 (deprecated, will EOL Jan 26, 2026) - consider upgrading to v5 in the future
-
-### 4. Security Notes
-
-The update includes security patches. Review the [Vendure Changelog](https://github.com/vendure-ecommerce/vendure/releases) for details on security fixes between 3.3.1 and 3.5.2.
+- Apollo Server v4 is deprecated (will EOL Jan 26, 2026) - consider upgrading to v5 in the future
+- The update includes security patches. Review the [Vendure Changelog](https://github.com/vendure-ecommerce/vendure/releases) for details
 
 ## Changelog References
 

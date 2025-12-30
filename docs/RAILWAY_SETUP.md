@@ -1,10 +1,10 @@
 # Railway Backend Setup Guide
 
-## Database Connection Issue
+## Overview
 
-The backend was crashing because it couldn't connect to the database. Railway provides a `DATABASE_URL` environment variable automatically when you add a PostgreSQL service, but the code now supports both `DATABASE_URL` and individual database variables.
+Railway provides a `DATABASE_URL` environment variable automatically when you add a PostgreSQL service. The code supports both `DATABASE_URL` and individual database variables.
 
-## Step-by-Step Railway Setup
+## Setup Steps
 
 ### 1. Add PostgreSQL Database Service
 
@@ -75,10 +75,10 @@ Once the service is running:
 **Problem**: Backend can't connect to database
 
 **Solutions**:
-1. ✅ Verify PostgreSQL service is running in Railway
-2. ✅ Check that `DATABASE_URL` is set in backend service variables
-3. ✅ Ensure database service is linked to backend service
-4. ✅ Wait a few minutes after creating database (Railway needs time to provision)
+1. Verify PostgreSQL service is running in Railway
+2. Check that `DATABASE_URL` is set in backend service variables
+3. Ensure database service is linked to backend service
+4. Wait a few minutes after creating database (Railway needs time to provision)
 
 ### Database Migrations
 
@@ -96,13 +96,3 @@ If the service keeps crashing:
 2. Verify all required environment variables are set
 3. Check that `PORT=3000` matches the port in Railway networking settings
 4. Ensure database is fully provisioned and running
-
-## Next Steps
-
-After Railway backend is working:
-
-1. ✅ Set up custom domain: `admin.shortfusemusic.com` (see `DNS_SETUP.md`)
-2. ✅ Configure DNS in Vercel
-3. ✅ Update frontend `NEXT_PUBLIC_HOST` to point to Railway backend
-4. ✅ Test admin login at `https://admin.shortfusemusic.com/admin`
-
