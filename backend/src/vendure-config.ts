@@ -34,11 +34,24 @@ export const config: VendureConfig = {
   authOptions: {
     tokenMethod: ['bearer', 'cookie'],
     superadminCredentials: {
-      identifier: process.env.SUPERADMIN_USERNAME,
-      password: process.env.SUPERADMIN_PASSWORD,
+      identifier: process.env.SUPERADMIN_USERNAME || (() => {
+        console.error('[Config Error] SUPERADMIN_USERNAME is required but not set!');
+        process.exit(1);
+        return '';
+      })(),
+      password: process.env.SUPERADMIN_PASSWORD || (() => {
+        console.error('[Config Error] SUPERADMIN_PASSWORD is required but not set!');
+        process.exit(1);
+        return '';
+      })(),
     },
     cookieOptions: {
-      secret: process.env.COOKIE_SECRET,
+      secret: process.env.COOKIE_SECRET || (() => {
+        console.error('[Config Error] COOKIE_SECRET is required but not set!');
+        console.error('[Config Error] Generate one with: openssl rand -base64 32');
+        process.exit(1);
+        return '';
+      })(),
     },
   },
   dbConnectionOptions: (() => {
