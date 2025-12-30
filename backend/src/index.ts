@@ -9,11 +9,13 @@ runMigrations(config)
     })
     .then(app => {
         // Add root redirect to /admin using NestJS HTTP adapter
+        // Register this route early to ensure it's available
         const httpAdapter = app.getHttpAdapter();
         httpAdapter.get('/', (req: any, res: any) => {
-            res.redirect('/admin');
+            res.redirect(301, '/admin');
         });
         
+        console.log('[Server] Root redirect configured: / -> /admin');
         console.log('[Server] Vendure server is ready!');
         console.log(`[Server] Admin API: http://0.0.0.0:${process.env.PORT || 3000}/admin-api`);
         console.log(`[Server] Shop API: http://0.0.0.0:${process.env.PORT || 3000}/shop-api`);

@@ -127,6 +127,8 @@ export const config: VendureConfig = {
       route: 'admin',
       port: serverPort + 2,
       adminUiConfig: {
+        // In production, use same origin (Railway handles the proxy)
+        apiHost: IS_DEV ? 'http://localhost' : '',
         apiPort: serverPort,
       },
     }),
