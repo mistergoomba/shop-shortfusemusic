@@ -44,8 +44,7 @@ export const config: VendureConfig = {
   dbConnectionOptions: (() => {
     // Support Railway's DATABASE_URL format or individual env vars
     if (process.env.DATABASE_URL) {
-      // Parse DATABASE_URL: postgresql://user:password@host:port/database
-      const url = new URL(process.env.DATABASE_URL);
+      console.log('[DB Config] Using DATABASE_URL for connection');
       return {
         type: 'postgres' as const,
         synchronize: true,
@@ -55,6 +54,10 @@ export const config: VendureConfig = {
         schema: process.env.DB_SCHEMA || 'public',
       };
     } else {
+      console.log('[DB Config] DATABASE_URL not found, using individual env vars');
+      console.log('[DB Config] DB_HOST:', process.env.DB_HOST || 'NOT SET');
+      console.log('[DB Config] DB_PORT:', process.env.DB_PORT || 'NOT SET');
+      console.log('[DB Config] DB_NAME:', process.env.DB_NAME || 'NOT SET');
       // Fall back to individual environment variables
       return {
         type: 'postgres' as const,
