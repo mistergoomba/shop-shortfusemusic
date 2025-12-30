@@ -64,6 +64,7 @@ Once DNS propagates:
 ### Email Records (Don't Touch!)
 
 **DO NOT modify these records** - they're needed for email:
+
 - `@` MX record → `mx3.zoho.com.`
 - `@` TXT record → `v=spf1 include:zoho.com ~all`
 - `shortfusemusic._domainkey` TXT record → (DKIM key)
