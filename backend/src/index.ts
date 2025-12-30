@@ -1,8 +1,19 @@
 import { bootstrap, runMigrations } from '@vendure/core';
 import { config } from './vendure-config';
 
+console.log('[Server] Starting migrations...');
 runMigrations(config)
-    .then(() => bootstrap(config))
+    .then(() => {
+        console.log('[Server] Migrations completed, bootstrapping server...');
+        return bootstrap(config);
+    })
+    .then(app => {
+        console.log('[Server] Vendure server is ready!');
+        console.log(`[Server] Admin API: http://0.0.0.0:${process.env.PORT || 3000}/admin-api`);
+        console.log(`[Server] Shop API: http://0.0.0.0:${process.env.PORT || 3000}/shop-api`);
+        console.log(`[Server] Admin UI: http://0.0.0.0:${process.env.PORT || 3000}/admin`);
+    })
     .catch(err => {
-        console.log(err);
+        console.error('[Server] Fatal error during startup:', err);
+        process.exit(1);
     });

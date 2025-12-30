@@ -47,7 +47,7 @@ export const config: VendureConfig = {
       console.log('[DB Config] Using DATABASE_URL for connection');
       return {
         type: 'postgres' as const,
-        synchronize: true,
+        synchronize: process.env.APP_ENV === 'dev' ? true : false,
         migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
         logging: false,
         url: process.env.DATABASE_URL,
@@ -61,7 +61,7 @@ export const config: VendureConfig = {
       // Fall back to individual environment variables
       return {
         type: 'postgres' as const,
-        synchronize: true,
+        synchronize: process.env.APP_ENV === 'dev' ? true : false,
         migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
         logging: false,
         database: process.env.DB_NAME,
