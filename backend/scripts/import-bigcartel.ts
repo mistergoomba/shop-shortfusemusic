@@ -868,7 +868,7 @@ async function main() {
   // Get the directory of the current script
   // ts-node typically provides __dirname in CommonJS mode
   let scriptDir: string;
-  
+
   if (typeof __dirname !== 'undefined') {
     scriptDir = __dirname;
   } else {
@@ -877,9 +877,9 @@ async function main() {
       join(process.cwd(), 'backend', 'scripts'),
       join(process.cwd(), 'scripts'),
     ];
-    
+
     // Use the first path that contains products.json
-    const foundPath = possiblePaths.find(p => {
+    const foundPath = possiblePaths.find((p) => {
       try {
         readFileSync(join(p, 'products.json'), 'utf-8');
         return true;
@@ -887,15 +887,15 @@ async function main() {
         return false;
       }
     });
-    
+
     scriptDir = foundPath || join(process.cwd(), 'backend', 'scripts');
   }
-  
+
   // Use provided path or default to products.json in the same directory
   const jsonPath = process.argv[2] || join(scriptDir, 'products.json');
 
   console.log(`[Import] Reading products from: ${jsonPath}`);
-  
+
   try {
     const productsData = JSON.parse(readFileSync(jsonPath, 'utf-8')) as BigCartelProduct[];
 
@@ -910,26 +910,28 @@ async function main() {
       console.log('[Import] Clearing existing data...');
       await importer.clearDatabase();
 
-    console.log('[Import] Creating Size facet...');
-    await importer.ensureSizeFacet();
+      console.log('[Import] Creating Size facet...');
+      await importer.ensureSizeFacet();
 
-    console.log('[Import] Starting import process...');
-    let successCount = 0;
-    let errorCount = 0;
+      console.log('[Import] Starting import process...');
+      let successCount = 0;
+      let errorCount = 0;
 
-    for (let i = 0; i < productsData.length; i++) {
-      const product = productsData[i];
-      try {
-        console.log(`[Import] Processing product ${i + 1}/${productsData.length}: ${product.name}`);
-        await importer.createProduct(product);
-        successCount++;
-        // Add delay between products to avoid rate limiting
-        await importer.delay(500);
-      } catch (error) {
-        console.error(`[Import] Failed to import product "${product.name}":`, error);
-        errorCount++;
+      for (let i = 0; i < productsData.length; i++) {
+        const product = productsData[i];
+        try {
+          console.log(
+            `[Import] Processing product ${i + 1}/${productsData.length}: ${product.name}`
+          );
+          await importer.createProduct(product);
+          successCount++;
+          // Add delay between products to avoid rate limiting
+          await importer.delay(500);
+        } catch (error) {
+          console.error(`[Import] Failed to import product "${product.name}":`, error);
+          errorCount++;
+        }
       }
-    }
 
       console.log('\n[Import] Import complete!');
       console.log(`[Import] Successfully imported: ${successCount} products`);
@@ -941,7 +943,9 @@ async function main() {
   } catch (error) {
     if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
       console.error(`[Import] Error: File not found: ${jsonPath}`);
-      console.error('[Import] Please ensure products.json exists in the scripts directory or provide a valid path.');
+      console.error(
+        '[Import] Please ensure products.json exists in the scripts directory or provide a valid path.'
+      );
     } else {
       console.error('[Import] Error reading products file:', error);
     }
