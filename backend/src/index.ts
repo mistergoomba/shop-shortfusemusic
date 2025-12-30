@@ -1,6 +1,5 @@
 import { bootstrap, runMigrations } from '@vendure/core';
 import { config } from './vendure-config';
-import { Request, Response } from 'express';
 
 console.log('[Server] Starting migrations...');
 runMigrations(config)
@@ -9,10 +8,9 @@ runMigrations(config)
         return bootstrap(config);
     })
     .then(app => {
-        // Add root redirect to /admin
-        const httpServer = app.getHttpServer();
-        const expressApp = httpServer.app;
-        expressApp.get('/', (req: Request, res: Response) => {
+        // Add root redirect to /admin using NestJS HTTP adapter
+        const httpAdapter = app.getHttpAdapter();
+        httpAdapter.get('/', (req: any, res: any) => {
             res.redirect('/admin');
         });
         
