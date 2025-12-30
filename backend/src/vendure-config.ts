@@ -41,20 +41,35 @@ export const config: VendureConfig = {
       secret: process.env.COOKIE_SECRET,
     },
   },
-  dbConnectionOptions: {
-    type: 'postgres',
-    // See the README.md "Migrations" section for an explanation of
-    // the `synchronize` and `migrations` options.
-    synchronize: true,
-    migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
-    logging: false,
-    database: process.env.DB_NAME,
-    schema: process.env.DB_SCHEMA,
-    host: process.env.DB_HOST,
-    port: +process.env.DB_PORT,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-  },
+  dbConnectionOptions: (() => {
+    // Support Railway's DATABASE_URL format or individual env vars
+    if (process.env.DATABASE_URL) {
+      // Parse DATABASE_URL: postgresql://user:password@host:port/database
+      const url = new URL(process.env.DATABASE_URL);
+      return {
+        type: 'postgres' as const,
+        synchronize: true,
+        migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
+        logging: false,
+        url: process.env.DATABASE_URL,
+        schema: process.env.DB_SCHEMA || 'public',
+      };
+    } else {
+      // Fall back to individual environment variables
+      return {
+        type: 'postgres' as const,
+        synchronize: true,
+        migrations: [path.join(__dirname, './migrations/*.+(js|ts)')],
+        logging: false,
+        database: process.env.DB_NAME,
+        schema: process.env.DB_SCHEMA || 'public',
+        host: process.env.DB_HOST,
+        port: +process.env.DB_PORT || 5432,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+      };
+    }
+  })(),
   paymentOptions: {
     paymentMethodHandlers: [dummyPaymentHandler],
   },
