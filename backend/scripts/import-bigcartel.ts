@@ -2,14 +2,16 @@
  * Import script for BigCartel products into Vendure
  *
  * Usage:
- *   ts-node scripts/import-bigcartel.ts <path-to-products.json>
+ *   ts-node scripts/import-bigcartel.ts [optional-path-to-products.json]
  *
+ * If no path is provided, it will use products.json in the same directory as this script.
  * Example:
- *   ts-node scripts/import-bigcartel.ts "/Users/mistergoomba/Dropbox/current projects/new shop/products.json"
+ *   ts-node scripts/import-bigcartel.ts
+ *   ts-node scripts/import-bigcartel.ts "/path/to/custom/products.json"
  */
 
 import { readFileSync, writeFileSync, unlinkSync } from 'fs';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { tmpdir } from 'os';
 import FormData from 'form-data';
 import 'dotenv/config';
@@ -863,26 +865,50 @@ class VendureImporter {
 }
 
 async function main() {
-  const jsonPath = process.argv[2];
-
-  if (!jsonPath) {
-    console.error('Usage: ts-node scripts/import-bigcartel.ts <path-to-products.json>');
-    process.exit(1);
+  // Get the directory of the current script
+  // ts-node typically provides __dirname in CommonJS mode
+  let scriptDir: string;
+  
+  if (typeof __dirname !== 'undefined') {
+    scriptDir = __dirname;
+  } else {
+    // Fallback: try to find products.json in common locations
+    const possiblePaths = [
+      join(process.cwd(), 'backend', 'scripts'),
+      join(process.cwd(), 'scripts'),
+    ];
+    
+    // Use the first path that contains products.json
+    const foundPath = possiblePaths.find(p => {
+      try {
+        readFileSync(join(p, 'products.json'), 'utf-8');
+        return true;
+      } catch {
+        return false;
+      }
+    });
+    
+    scriptDir = foundPath || join(process.cwd(), 'backend', 'scripts');
   }
+  
+  // Use provided path or default to products.json in the same directory
+  const jsonPath = process.argv[2] || join(scriptDir, 'products.json');
 
   console.log(`[Import] Reading products from: ${jsonPath}`);
-  const productsData = JSON.parse(readFileSync(jsonPath, 'utf-8')) as BigCartelProduct[];
-
-  console.log(`[Import] Found ${productsData.length} products to import`);
-
-  const importer = new VendureImporter();
-
+  
   try {
-    console.log('[Import] Authenticating...');
-    await importer.authenticate();
+    const productsData = JSON.parse(readFileSync(jsonPath, 'utf-8')) as BigCartelProduct[];
 
-    console.log('[Import] Clearing existing data...');
-    await importer.clearDatabase();
+    console.log(`[Import] Found ${productsData.length} products to import`);
+
+    const importer = new VendureImporter();
+
+    try {
+      console.log('[Import] Authenticating...');
+      await importer.authenticate();
+
+      console.log('[Import] Clearing existing data...');
+      await importer.clearDatabase();
 
     console.log('[Import] Creating Size facet...');
     await importer.ensureSizeFacet();
@@ -905,11 +931,20 @@ async function main() {
       }
     }
 
-    console.log('\n[Import] Import complete!');
-    console.log(`[Import] Successfully imported: ${successCount} products`);
-    console.log(`[Import] Failed: ${errorCount} products`);
+      console.log('\n[Import] Import complete!');
+      console.log(`[Import] Successfully imported: ${successCount} products`);
+      console.log(`[Import] Failed: ${errorCount} products`);
+    } catch (error) {
+      console.error('[Import] Fatal error:', error);
+      process.exit(1);
+    }
   } catch (error) {
-    console.error('[Import] Fatal error:', error);
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+      console.error(`[Import] Error: File not found: ${jsonPath}`);
+      console.error('[Import] Please ensure products.json exists in the scripts directory or provide a valid path.');
+    } else {
+      console.error('[Import] Error reading products file:', error);
+    }
     process.exit(1);
   }
 }
