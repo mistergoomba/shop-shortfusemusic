@@ -72,10 +72,10 @@ export const CustomHelmet: React.FC<{
             <meta property="og:description" content={seo.description} />
             <meta property="og:url" content={seo.pageUrl} />
 
-            {product?.variants[0].priceWithTax && (
+            {product?.variants?.[0]?.priceWithTax && (
                 <meta property="og:price:amount" content={`${product.variants[0].priceWithTax}`} />
             )}
-            {product?.variants[0].currencyCode && (
+            {product?.variants?.[0]?.currencyCode && (
                 <meta property="og:price:currency" content={`${product.variants[0].currencyCode}`} />
             )}
 
@@ -106,20 +106,22 @@ const doProductLD = (product: ProductDetailType) => {
         //       ratingValue: '4.4',
         //       reviewCount: '89',
         //   },
-        offers: {
-            '@type': 'Offer',
-            priceCurrency: product.variants[0].currencyCode,
-            price: product.variants[0].priceWithTax,
-            itemCondition: 'http://schema.org/UsedCondition',
-            availability:
-                product.variants[0].stockLevel === 'OUT_OF_STOCK'
-                    ? 'http://schema.org/OutOfStock'
-                    : 'http://schema.org/InStock',
-            //   seller: {
-            //       '@type': 'Organization',
-            //       name: 'Seller Name',
-            //   },
-        },
+        offers: product.variants?.[0]
+            ? {
+                  '@type': 'Offer',
+                  priceCurrency: product.variants[0].currencyCode,
+                  price: product.variants[0].priceWithTax,
+                  itemCondition: 'http://schema.org/UsedCondition',
+                  availability:
+                      product.variants[0].stockLevel === 'OUT_OF_STOCK'
+                          ? 'http://schema.org/OutOfStock'
+                          : 'http://schema.org/InStock',
+                  //   seller: {
+                  //       '@type': 'Organization',
+                  //       name: 'Seller Name',
+                  //   },
+              }
+            : undefined,
     };
 };
 const doCollectionLD = (collection: CollectionType) => {

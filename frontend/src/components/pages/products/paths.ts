@@ -1,7 +1,21 @@
 import { SSGQuery } from '@/src/graphql/client';
-import { ProductSlugSelector } from '@/src/graphql/selectors';
+import { Selector } from '@/src/zeus';
 import { DEFAULT_CHANNEL, channels } from '@/src/lib/consts';
 import { getAllPossibleWithChannels } from '@/src/lib/getStatic';
+
+const ProductSlugWithVariantsSelector = Selector('Product')({
+    name: true,
+    description: true,
+    id: true,
+    slug: true,
+    facetValues: {
+        name: true,
+        code: true,
+    },
+    variants: {
+        id: true,
+    },
+});
 
 export const getStaticPaths = async () => {
     const allPaths = getAllPossibleWithChannels();
@@ -9,15 +23,17 @@ export const getStaticPaths = async () => {
         allPaths.map(async path => {
             const channel = channels.find(c => c.slug === path.params.channel)?.channel ?? DEFAULT_CHANNEL;
             const { products } = await SSGQuery({ channel, locale: path.params.locale })({
-                products: [{}, { items: ProductSlugSelector }],
+                products: [{}, { items: ProductSlugWithVariantsSelector }],
             });
             return { ...products, ...path.params };
         }),
     );
     const paths = resp.flatMap(data =>
-        data.items.map(item => {
-            return { params: { ...data, slug: item.slug } };
-        }),
+        data.items
+            .filter(item => item.variants && item.variants.length > 0) // Skip products with no variants
+            .map(item => {
+                return { params: { ...data, slug: item.slug } };
+            }),
     );
 
     try {
