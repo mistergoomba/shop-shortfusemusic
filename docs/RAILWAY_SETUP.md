@@ -32,7 +32,7 @@ In your backend service's **Variables** tab, add these environment variables:
 - `SUPERADMIN_PASSWORD` - Your admin password (use a strong password!)
 
 **Optional (with defaults):**
-- `ASSET_UPLOAD_DIR=/app/static/assets` - Where uploaded assets are stored
+- `ASSET_UPLOAD_DIR=/data/assets` - Where uploaded assets are stored (should use Railway volume - see step 6)
 - `FROM_EMAIL_ADDRESS="Short Fuse Music" <noreply@shortfusemusic.com>` - Email sender address
 - `DB_SCHEMA=public` - Database schema (defaults to `public` if not set)
 
@@ -45,7 +45,27 @@ After setting up the database and environment variables:
 3. You should see successful database connection messages
 4. The service should start without `ECONNREFUSED` errors
 
-### 5. Access the Admin UI
+### 5. Set Up Persistent Volume for Assets (IMPORTANT)
+
+**⚠️ Critical**: Railway's filesystem is ephemeral. Without a persistent volume, uploaded assets will be lost on every deployment, causing 404 errors.
+
+1. In your Railway project, click **+ New**
+2. Select **Volume** → **Add Volume**
+3. Name it `assets` (or similar)
+4. Click on your backend service
+5. Go to **Settings** → **Volumes**
+6. Click **+ Mount Volume**
+7. Select the volume you created
+8. Set the mount path to `/data`
+9. Click **Mount**
+
+**Set Environment Variable:**
+- In your backend service's **Variables** tab, add:
+  - `ASSET_UPLOAD_DIR=/data/assets`
+
+This ensures assets persist across deployments.
+
+### 6. Access the Admin UI
 
 Once the service is running:
 
@@ -64,7 +84,7 @@ Once the service is running:
 | `COOKIE_SECRET` | ✅ | Secret for cookies | `[random string]` |
 | `SUPERADMIN_USERNAME` | ✅ | Admin login username | `admin` |
 | `SUPERADMIN_PASSWORD` | ✅ | Admin login password | `[strong password]` |
-| `ASSET_UPLOAD_DIR` | ❌ | Asset storage path | `/app/static/assets` |
+| `ASSET_UPLOAD_DIR` | ❌ | Asset storage path (use `/data/assets` with Railway volume) | `/data/assets` |
 | `FROM_EMAIL_ADDRESS` | ❌ | Email sender | `"Short Fuse Music" <noreply@shortfusemusic.com>` |
 | `DB_SCHEMA` | ❌ | Database schema | `public` |
 
@@ -96,3 +116,26 @@ If the service keeps crashing:
 2. Verify all required environment variables are set
 3. Check that `PORT=3000` matches the port in Railway networking settings
 4. Ensure database is fully provisioned and running
+
+### Assets Return 404 (404 Not Found)
+
+**Problem**: Assets uploaded through the admin panel return 404 errors on the frontend.
+
+**Cause**: Railway's filesystem is ephemeral. Without a persistent volume, assets are lost when the container restarts or redeploys.
+
+**Solutions**:
+1. **Set up a Railway Volume** (Recommended):
+   - Follow step 5 above to create and mount a persistent volume
+   - Set `ASSET_UPLOAD_DIR=/data/assets` environment variable
+   - Redeploy the service
+   - Re-upload assets through the admin panel (they will now persist)
+
+2. **Verify Volume Mount**:
+   - Check **Settings** → **Volumes** in your Railway service
+   - Ensure volume is mounted at `/data`
+   - Verify `ASSET_UPLOAD_DIR` environment variable is set correctly
+
+3. **Check Asset URLs**:
+   - Assets should be accessible at: `https://admin.shortfusemusic.com/assets/...`
+   - Verify the `assetUrlPrefix` in `vendure-config.ts` matches your domain
+   - Check Railway logs for asset serving errors

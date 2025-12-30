@@ -105,7 +105,10 @@ export const config: VendureConfig = {
     GraphiqlPlugin.init(),
     AssetServerPlugin.init({
       route: 'assets',
-      assetUploadDir: process.env.ASSET_UPLOAD_DIR || path.join(__dirname, '../static/assets'),
+      // Use Railway volume path for persistent storage, fallback to local path for dev
+      assetUploadDir:
+        process.env.ASSET_UPLOAD_DIR ||
+        (IS_DEV ? path.join(__dirname, '../static/assets') : '/data/assets'), // Railway volumes are typically mounted at /data
       // For local dev, the correct value for assetUrlPrefix should
       // be guessed correctly, but for production it will usually need
       // to be set manually to match your production url.

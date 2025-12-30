@@ -106,10 +106,16 @@ npm run dev
    - Database connection (auto-provided by Railway via `DATABASE_URL`)
    - `COOKIE_SECRET` (generate a secure random string)
    - `SUPERADMIN_USERNAME` and `SUPERADMIN_PASSWORD`
-   - `ASSET_UPLOAD_DIR=/app/static/assets`
+   - `ASSET_UPLOAD_DIR=/data/assets` (requires Railway volume - see step 6)
    - `PORT=3000`
    - `APP_ENV=production`
-6. Add custom domain: `admin.shortfusemusic.com`
+6. **Set up persistent volume for assets** (CRITICAL - prevents 404 errors):
+   - In Railway project, click **+ New** → **Volume** → **Add Volume**
+   - Name it `assets`
+   - In your backend service: **Settings** → **Volumes** → **+ Mount Volume**
+   - Mount path: `/data`
+   - This ensures uploaded assets persist across deployments
+7. Add custom domain: `admin.shortfusemusic.com`
 
 ### Environment Variables
 
@@ -120,7 +126,7 @@ npm run dev
 - `COOKIE_SECRET` (your secret key)
 - `SUPERADMIN_USERNAME` (admin username)
 - `SUPERADMIN_PASSWORD` (admin password)
-- `ASSET_UPLOAD_DIR=/app/static/assets`
+- `ASSET_UPLOAD_DIR=/data/assets` (requires Railway volume mount at `/data`)
 - `FROM_EMAIL_ADDRESS="Short Fuse Music" <noreply@shortfusemusic.com>`
 
 **Frontend (Vercel):**
